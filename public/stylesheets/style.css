@@ -64,7 +64,7 @@ legend {
   margin-bottom: 0.5em;
 }
 
-badge-default, btn-primary {
+.badge-default, .btn-primary {
   background-color: #ad1d28;
   border-color: #911821;
 }
@@ -86,11 +86,11 @@ h1 small {
 .address {
   margin-bottom: 0.5rem;
 }
-
+/*
 .facilities span.badge {
   margin-right: 2px;
 }
-
+*/
 p {
   margin-bottom: 0.65rem;
 }
