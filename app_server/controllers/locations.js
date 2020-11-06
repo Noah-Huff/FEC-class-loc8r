@@ -1,6 +1,6 @@
 /* get home page*/
 const homelist = (req, res) => {
-    res.render('locations-list', { title: 'Home is where the heart is'});
+    res.render('locations-list', { title: 'Home'});
 };
 /* get locations info page*/
 const locationInfo = (req, res) => {
