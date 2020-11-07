@@ -4,11 +4,11 @@ const homelist = (req, res) => {
 };
 /* get locations info page*/
 const locationInfo = (req, res) => {
-    res.render('index', { title: 'Location Info'});
+    res.render('location-info', { title: 'Location Info'});
 };
 /* get add review page*/
 const addReview = (req, res) => {
-    res.render('index', { title: 'Add Review'});
+    res.render('location-review-form', { title: 'Add Review'});
 };
 
 module.exports = {
