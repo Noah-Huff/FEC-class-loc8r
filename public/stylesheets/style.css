@@ -113,3 +113,7 @@ body {
     color: #fff;
     background-color: #108a93;
 }
+
+#mapid {
+    height: 275px;
+}
