@@ -1,3 +1,9 @@
+//const mapInfo = require("./mapInfo");
+//const mapInfo = require("../../public/javascripts/mapInfo");
+//const { mymap } = require("./mapInfo");
+
+//const { myMap } = require("../../public/javascripts/mapInfo");
+
 /* get home page*/
 const homelist = (req, res) => {
     res.render('locations-list', {
@@ -39,6 +45,7 @@ const locationInfo = (req, res) => {
             rating: 3.5,
             facilities: ['Hot Drinks', 'Food', 'Premium Wifi'],
             coords: { lat: 51.455041, lng: -0.9690884 },
+            //mapInfo: (typeof window === 'defined' && typeof(window.L) === 'defined') ? "No Map Available" : "yes", //document.getElementById("mapid").addEventListener("load", myFunction), 
             openingTimes: [{
                 days: 'Monday-Friday',
                 opening: "7:00am",
