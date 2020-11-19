@@ -8,6 +8,10 @@ block content
     .col-12.col-md-8
       form(action="/location" method="get" role="form")
         .form-group.row
+          label.col-12.col-sm-2.col-form-label(for="name") Name
+          .col-10.col-sm-10
+            input#name.form-control(name="name", rows="1")
+        .form-group.row
           label.col-10.col-sm-2.col-form-label(for="rating") Rating
           .col-12.col-sm-2
             select#rating.form-control.input-sm(name="rating")

@@ -1,8 +1,3 @@
-//const mapInfo = require("./mapInfo");
-//const mapInfo = require("../../public/javascripts/mapInfo");
-//const { mymap } = require("./mapInfo");
-
-//const { myMap } = require("../../public/javascripts/mapInfo");
 
 /* get home page*/
 const homelist = (req, res) => {

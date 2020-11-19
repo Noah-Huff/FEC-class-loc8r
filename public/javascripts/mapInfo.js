@@ -1,4 +1,5 @@
-//import locations from 'app_server/controllers/locations.js';
+//import locations from 'app_server/controllers/locations.js'; //this function is not available
+//on the client side, that's why it's breaking
 
 
 //function myMap() {
@@ -15,9 +16,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 //}
 
 
-module.exports = {
-    mymap,
-    //mymap
-};
+// module.exports = {
+//     mymap,
+//     //mymap
+// };
 
 
