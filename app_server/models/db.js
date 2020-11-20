@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
-let dbURI = 'mongodb://localhost/Loc8r';
+const host = process.env.DB_HOST || 'mongodb://127.0.0.1/Loc8r';
+let dbURL = `${host}`;
 
-mongoose.connect(dbURI, {useNewUrlParser: true});
+console.log('Env = ', process.env.NODE_ENV);
+
+mongoose.connect(dbURL, {useNewUrlParser: true});
 
 mongoose.connection.on('connected', () => { 
-    console.log(`Mongoose Connected to ${dbURI}`);
+    console.log(`Mongoose Connected to ${dbURL}`);
 });
 
 mongoose.connection.on('error', err => {
