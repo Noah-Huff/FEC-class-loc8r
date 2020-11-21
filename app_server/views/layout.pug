@@ -7,41 +7,40 @@ html
     link(rel='stylesheet' href='/stylesheets/bootstrap.min.css')
     //link(rel='stylesheet' href='/stylesheets/bootstrap.css')
     link(rel='stylesheet' href='/stylesheets.all.min.css')
-    link(rel='stylesheet' href='/stylesheets/style.css')
+    //link(rel='stylesheet' href='/stylesheets/style.css')
     link(rel='stylesheet' href='/stylesheets/all.css')
+    link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
+    link(rel='stylesheet' href='/stylesheets/style.css')
     link(rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css')
     //link(rel='stylesheet' href='/stylesheets/bootstrap.min.css')
 
 
   body
-    nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse
+    nav.navbar.fixed-top.navbar-expand-md.navbar-inverse
       .container
-        a.navbar-brand(href="/") loc8r
+        a.navbar-brand(href="/") Loc8r
         button.navbar-toggler.navbar-toggler-right(type='button' data-toggle='collapse' data-target='#navbarMain') 
           span.navbar-toggler-iconn.fas.fa-bars
+        
         #navbarMain.navbar-collapse.collapse
+        
           ul.navbar-nav.mr-auto
             li.nav-item
               a.nav-link(href='/about/') About
 
-  .container.content
-    block content
+    .container.content
+      block content
 
-    footer
-      .row
-        .col-12
-          small &copy; Getting Mean, Simon Holmes/CliveHarber 2018 Built by Noah Huff
+      footer
+        .row
+          .col-12
+            small &copy; Getting Mean, Simon Holmes/CliveHarber 2018 Built by Noah Huff
 
+    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' crossorigin='anonymous')
+    script(src='/javascripts/bootstrap.min.js')
 
+    //script(src='/controllers/locations.js')
 
-
-  //script(src='/javascripts/mapInfo.js')
-  //script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="")
-  script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' crossorigin='anonymous')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js' crossorigin='anonymous')
-  script(src='/javascripts/bootstrap.min.js')
-
-  script(src='/controllers/locations.js')
-
-  script(src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js')
-  script(src='javascripts/mapInfo.js')
+    script(src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js')
+    script(src='javascripts/mapInfo.js')
