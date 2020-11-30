@@ -42,7 +42,8 @@ const locationSchema = new mongoose.Schema({
         type: { type: String },
         coordinates: [Number]
     },
-    openingTimes: [openingTimeSchema]
+    openingTimes: [openingTimeSchema],
+    reviews: [reviewSchema]
  });
  locationSchema.index({coords: '2dsphere'}); //longitude (valid values(-180, 180)) latitude (valid values(-90, 90))
 
