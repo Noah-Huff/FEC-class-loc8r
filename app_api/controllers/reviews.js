@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { response } = require('../../app');
+//const { response } = require('../../app');
 const Loc = mongoose.model('Location');
 
 const reviewsReadOne = (req, res) => {
@@ -55,7 +55,8 @@ const reviewsCreate = (req, res) => {
                 .status(400)
                 .json(err);
             } else {
-                doAddReview(req, res, location);
+                console.log('REMOVE Line 88');
+                _doAddReview(req, res, location);
             }
             });
             } else {
@@ -63,52 +64,6 @@ const reviewsCreate = (req, res) => {
                 .status(404)
                 .json({"message": "Location not found"});
             }
-};
-
-const doAddReview = (req, res, location) => {
-    if (!location) {
-        res
-        .status(404)
-        .json({"Message": "Location not found"});
-    } else {
-        const {author, rating, reviewText} = req.body;
-        location.reviews.push({
-            author,
-            rating,
-            reviewText
-        });
-        location.save((err, location) => {
-            if (err) {
-                res
-                .status(400)
-                .json(err);
-            } else {
-                updateAverageRating(location._id);
-                const thisReview = location.reviews.slice(-1).pop();
-                res
-                .status(400)
-                .json(reviewText);
-            }
-        });
-    }
-};
-
-const doSetAverageRating = (location) => {
-    if (location.reviews && location.reviews.length > 0) {
-        const count = location.reviews.length;
-        const total = location.reviews.reduce ((acc, {rating}) => {
-            return acc + rating;
-        }, 0);
-
-        location.rating = parseInt(total/count, 10);
-        location.save(err => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(`Average rating updated to ${location.rating}`);
-            }
-        });
-    }
 };
 
 const reviewsUpdateOne = (req, res) => {
@@ -146,7 +101,7 @@ const reviewsUpdateOne = (req, res) => {
                         .status(404)
                         .json(err);
                     } else {
-                        updateAverageRating(location._id);
+                        _updateAverageRating(location._id);
                         res
                         .status(200)
                         .json(thisReview);
@@ -161,7 +116,7 @@ const reviewsUpdateOne = (req, res) => {
     });
 };
 
-const reviewsDeletOne = (req, res) => {
+const reviewsDeleteOne = (req, res) => {
     const {locationid, reviewid} = req.params;
     if (!locationid || !reviewid) {
         return res
@@ -196,7 +151,7 @@ const reviewsDeletOne = (req, res) => {
                         .status(404)
                         .json(err);
                     } else {
-                        updateAverageRating(location._id);
+                        _updateAverageRating(location._id);
                         res
                         .status(204)
                         .json(null);
@@ -211,11 +166,72 @@ const reviewsDeletOne = (req, res) => {
     });
 };
 
+const _doAddReview = (req, res, location) => {
+    if (!location) {
+        res
+        .status(404)
+        .json({"Message": "Location not found"});
+    } else {
+        //const {author, rating, reviewText} = req.body;
+        console.log('REMOVE line 55');
+        location.reviews.push({
+            author: req.body.author,
+            rating: req.body.rating,
+            reviewText: req.body.reviewText
+        });
+        console.log('RATING TYPE', typeof(location.reviews.rating));
+        console.log('REVIEWTEXT TYPE', typeof(location.reviews.reviewText));
+        console.log('AUTHOR TYPE', typeof(location.reviews.author));
+        console.log('REMOVE line 61');
+        location.save((err, location) => {
+            if (err) {
+                console.log('REMOVE line 63');
+                res
+                .status(400)
+                .json(err);
+            } else {
+                _updateAverageRating(location._id);
+                const thisReview = location.reviews.slice(-1).pop();
+                res
+                .status(200)
+                .json(thisReview);
+            }
+        });
+    }
+};
+
+const _doSetAverageRating = (location) => {
+    if (location.reviews && location.reviews.length > 0) {
+        const count = location.reviews.length;
+        const total = location.reviews.reduce ((acc, {rating}) => {
+            return acc + rating;
+        }, 0);
+
+        location.rating = parseInt(total/count, 10);
+        location.save(err => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(`Average rating updated to ${location.rating}`);
+            }
+        });
+    }
+};
+
+const _updateAverageRating = function(locationid) {
+    Loc
+      .findById(locationid)
+      .select('rating reviews')
+      .exec((err, location) => {
+        if (!err) {
+          _doSetAverageRating(location); 
+        }
+      });
+  };
+
 module.exports = {
     reviewsReadOne,
     reviewsCreate,
-    doAddReview,
-    doSetAverageRating,
     reviewsUpdateOne,
-    reviewsDeletOne
+    reviewsDeleteOne
 };

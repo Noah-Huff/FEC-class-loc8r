@@ -1,28 +1,45 @@
 
 /* get home page*/
-const homelist = (req, res) => {
+const request = require('request');
+const { response } = require('../../app');
+const apiOptions = {
+    server: 'http://localhost:3000' 
+};
+if (process.env.NODE_ENV === 'production') {
+    apiOptions.server = 'https://enigmatic-castle-68214.herokuapp.com';
+}
+
+const renderHomepage = (req, res, responseBody) => {
     res.render('locations-list', {
-        title: 'Loc8r - find a place to work with wifii',
+        title: "Loc8r - find a place to work with wifi",
         pageHeader: {
             title: 'Loc8r',
             strapline: 'Find places to work with wifi near you!'
         },
         sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
-        locations: [{
-            name: 'Starcups',
-            address: '125 High Street, Reading, RG6 1PS',
-            rating: 3.5,
-            facilities: ['Hot Drinks', 'Food', 'Premium Wifi'],
-            distance: '100m'
-        }, {
-            name: 'Cafe Hero',
-            address: '125 High Street, Reading, RG6 1PS',
-            rating: 4,
-            facilities: ['Hot Drinks', 'Food', 'Premium Wifi'],
-            distance: '150m'
-        }]
+        locations: responseBody
 
     });
+};
+
+const homelist = (req, res) => {
+    const path = '/api/locations';
+    const requestOptions = {
+        url: `${apiOptions.server}${path}`,
+        method: 'GET',
+        json: {},
+        qs: {
+            lng: -94.30972962942637,
+            lat: 38.91793387310823,
+            maxDistance: 20000
+        }
+    };
+    request(
+        requestOptions,
+        (err, response, body) => {
+            renderHomepage(req, res, body);
+    }
+    );
 };
 
 /* get locations info page*/
