@@ -38,11 +38,6 @@ const locationSchema = new mongoose.Schema({
     max: 5
 },
     facilities: [String],
-    // Nikhitha used this Schema
-    // coords: {
-    //     type: [Number],
-    //     index: '2dsphere'
-    //   },
     coords: {
         type: { type: String },
         coordinates: [Number]

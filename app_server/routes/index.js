@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-//const ctrlMain = require('../controllers/main'); // I don't think I need this.... not for sure yet though
 const ctrlLocations = require('../controllers/locations');
 const ctrlOthers = require('../controllers/others');
 //const myMap = require('../javascripts/mapInfo.js');
 
 // Locations Pages
 router.get('/', ctrlLocations.homelist);
-router.get('/location', ctrlLocations.locationInfo);
+router.get('/location/:locationid', ctrlLocations.locationInfo);
 //router.post('/locations', ctrlLocations.locationsCreate);
 
 
