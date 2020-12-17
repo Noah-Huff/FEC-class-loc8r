@@ -7,3 +7,13 @@ mixin outputRating(rating)
       -else if (i>=rating)
          i.far.fa-star
 
+mixin formatDate(dateString)
+   -const date = new Date(dateString);
+   -const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+   -const d = date.getDate();
+   -const m = monthNames[date.getMonth()];
+   -const y = date.getFullYear();
+   -const output = `${m} ${d} ${y}`;
+   = output
+
+

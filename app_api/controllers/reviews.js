@@ -55,7 +55,6 @@ const reviewsCreate = (req, res) => {
                 .status(400)
                 .json(err);
             } else {
-                console.log('REMOVE Line 88');
                 _doAddReview(req, res, location);
             }
             });
@@ -179,13 +178,10 @@ const _doAddReview = (req, res, location) => {
             rating: req.body.rating,
             reviewText: req.body.reviewText
         });
-        console.log('RATING TYPE', typeof(location.reviews.rating));
-        console.log('REVIEWTEXT TYPE', typeof(location.reviews.reviewText));
-        console.log('AUTHOR TYPE', typeof(location.reviews.author));
-        console.log('REMOVE line 61');
+
         location.save((err, location) => {
             if (err) {
-                console.log('REMOVE line 63');
+                console.log(err);
                 res
                 .status(400)
                 .json(err);
@@ -193,7 +189,7 @@ const _doAddReview = (req, res, location) => {
                 _updateAverageRating(location._id);
                 const thisReview = location.reviews.slice(-1).pop();
                 res
-                .status(200)
+                .status(201)
                 .json(thisReview);
             }
         });
