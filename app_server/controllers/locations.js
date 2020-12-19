@@ -67,7 +67,7 @@ const locationInfo = (req, res) => {
 };
 /* get add review page*/
 const addReview = (req, res) => {
-    _getLocationInfo(req, res,
+    getLocationInfo(req, res,
         (req, res, responseData) => _renderReviewForm(req, res, responseData)
     );
 };
@@ -102,6 +102,32 @@ const doAddReview = (req, res) => {
         }
     );
     }
+};
+
+const getLocationInfo = (req, res, callback) => {
+    const path = `/api/locations/${req.params.locationid}`;
+    const requestOptions = {
+        url: `${apiOptions.server}${path}`,
+        method: 'GET',
+        json: {}
+    };
+    request(
+        requestOptions,
+        (err, {statusCode}, body) => {
+            let data = body;
+            console.log('THIS IS THE BODY', body);
+            if (statusCode === 200) {
+            data.coords = {
+                lng: body.coords[0],
+                lat: body.coords[1]
+            };
+            console.log('THESE ARE FROM _GETLOCATIONINFO', body.coords.lat);
+            callback(req, res, data);
+        } else {
+            _showError(req, res, statusCode);
+        }
+        }
+    );
 };
 
 //PRIVATE METHODS
@@ -179,31 +205,6 @@ const _renderReviewForm = (req, res, {name}) => {
     });
 };
 
-const _getLocationInfo = (req, res, callback) => {
-    const path = `/api/locations/${req.params.locationid}`;
-    const requestOptions = {
-        url: `${apiOptions.server}${path}`,
-        method: 'GET',
-        json: {}
-    };
-    request(
-        requestOptions,
-        (err, {statusCode}, body) => {
-            let data = body;
-            console.log('THIS IS THE BODY', body);
-            if (statusCode === 200) {
-            data.coords = {
-                lng: body.coords[0],
-                lat: body.coords[1]
-            };
-            callback(req, res, data);
-        } else {
-            _showError(req, res, statusCode);
-        }
-        }
-    );
-};
-
 
 // //code for DO ADD REVIEW Method
 // if (!postdata.author || !postdata.rating || !postdata.reviewText) {
@@ -214,5 +215,6 @@ module.exports = {
     homelist,
     locationInfo,
     addReview,
-    doAddReview
+    doAddReview,
+    getLocationInfo
 };
