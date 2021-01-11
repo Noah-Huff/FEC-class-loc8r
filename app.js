@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('./app_api/models/db');
 const apiRouter = require('./app_api/routes/index');
-const indexRouter = require('./app_server/routes/index');
+//const indexRouter = require('./app_server/routes/index'); // REMOVED AFTER USING ANGULAR SPA
 
 var app = express();
 
@@ -19,18 +19,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'app_public')));
+//app.use(express.static(path.join(__dirname, 'app_public')));
+app.use(express.static(path.join(__dirname, 'app_public', 'build')));
 
 //app.use(express.static(path.join(__dirname, 'app_public')));
 
 app.use('/api', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Origin', '*');
+  //res.header('Access-Control-Allow-Origin', 'https://enigmatic-castle-68214.herokuapp.com');
+  //res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter); // REMOVED AFTER USING ANGULAR SPA
 app.use('/api', apiRouter);
+
+app.use('/api', apiRouter);
+app.get('*', function(req, res, next) {
+  res.sendFile(path.join(__dirname, 'app_public', 'build', 'index.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

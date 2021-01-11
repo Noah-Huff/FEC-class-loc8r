@@ -1,8 +1,4 @@
-//import locations from 'app_server/controllers/locations.js'; //this function is not available
-//on the client side, that's why it's breaking
 
-
-//function myMap() {
 var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -13,14 +9,4 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoiaHVmZnN0ZXIiLCJhIjoiY2toZTZzeTd4MG03czMwbzIwN2xiNHgwaSJ9.4PrmZNzpL6Q1rZ49bCD9lA'
 }).addTo(mymap);
-//}
 
-
-// module.exports = {
-//     mymap,
-//     //mymap
-// };
-
-module.exports = {
-    coords,
-};

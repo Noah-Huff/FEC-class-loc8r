@@ -1,0 +1,24 @@
+<nav class="navbar fixed-top navbar-expand-md navbar-inverse">
+  <div class="container">
+    <a routerLink="" class="navbar-brand">Loc8r</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarMain"> 
+      <span class="navbar-toggler-iconn fas fa-bars"></span></button>
+      <div class="navbar-collapse collapse" id="navbarMain">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a routerLink="about" routerLinkActive="active" class="nav-link">About</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</nav>
+<div class="container content">
+  <router-outlet></router-outlet>
+  <footer>
+      <div class="row">
+          <div class="col-12">
+            <small>&copy; Getting Mean, Simon Holmes/CliveHarber 2018 Built by Noah Huff</small>
+          </div>
+      </div>
+  </footer>
+</div>
