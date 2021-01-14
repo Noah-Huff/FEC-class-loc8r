@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpInterceptor } from '@angular/common/http';
 import { getLocaleCurrencyName } from '@angular/common';
 import { Location, Review } from './location';
 import { environment } from '../environments/environment';
+import { AuthResponse } from './authresponse';
+import { BROWSER_STORAGE } from './storage';
+import { User } from './user';
 
 
 @Injectable({
@@ -10,7 +13,9 @@ import { environment } from '../environments/environment';
 })
 export class Loc8rDataService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    @Inject(BROWSER_STORAGE) private storage: Storage) { }
 
   private apiBaseUrl = environment.apiBaseUrl;
 
@@ -24,6 +29,7 @@ export class Loc8rDataService {
     .then(response => response as Location[])
     .catch(this._handleError);
   }
+
   public getLocationById(locationId: string): Promise<Location> {
     const url: string = `${this.apiBaseUrl}/locations/${locationId}`;
     return this.http
@@ -32,12 +38,37 @@ export class Loc8rDataService {
     .then(response => response as Location)
     .catch(this._handleError);
   }
+
   public addReviewByLocationId(locationId: string, formData: Review): Promise<Review> {
+    console.log('THIS IS THE HTTPHEADER', `${this.storage.getItem('loc8r-token')}`);
     const url: string =`${this.apiBaseUrl}/locations/${locationId}/reviews`;
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.storage.getItem('loc8r-token')}`
+      })
+    };
     return this.http
-    .post(url, formData)
+    .post(url, formData, httpOptions)
     .toPromise()
     .then(response => response as Review)
+    .catch(this._handleError);
+  }
+
+  public login(user: User): Promise<AuthResponse> {
+    return this._makeAuthApiCall('login', user);
+  }
+
+  public register(user: User): Promise<AuthResponse> {
+    return this._makeAuthApiCall('register', user);
+  }
+  
+  private _makeAuthApiCall(urlPath: string, user: User): Promise<AuthResponse> {
+    const url: string = `${this.apiBaseUrl}/${urlPath}`;
+    return this.http
+    .post(url, user)
+    .toPromise()
+    .then(response => response as AuthResponse)
     .catch(this._handleError);
   }
   private _handleError(error: any): Promise<any> {

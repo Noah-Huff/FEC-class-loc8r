@@ -3,6 +3,7 @@ import { Location, Review } from '../location';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Loc8rDataService } from '../loc8r-data.service';
 import { switchMap } from 'rxjs/operators';
+import { AuthenticationService } from '../authentication.service';
 
 
 import * as L from 'leaflet';
@@ -19,7 +20,9 @@ export class LocationDetailsComponent implements OnInit {
   newLocation: Location;
 
   constructor(private loc8rDataService: Loc8rDataService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService
+    ) { }
 
   ngOnInit() {
     /*
@@ -57,9 +60,12 @@ L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     rating: 5,
     reviewText: ''
   };
+  
   public formVisible: boolean = false;
+
   public onReviewSubmit(): void {
     this.formError = '';
+    this.newReview.author = this.getUsername();
     if (this._formIsValid()) {
       console.log(this.newReview);
       this.loc8rDataService.addReviewByLocationId(this.location._id, this.newReview)
@@ -73,6 +79,15 @@ L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     } else {
       this.formError = 'All fields required, please try again';
     }
+  }
+  
+  public isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn();
+  }
+
+  public getUsername(): string {
+    const { name } = this.authenticationService.getCurrentUser();
+    return name ? name : 'Guest';
   }
 
   public formError: string;
